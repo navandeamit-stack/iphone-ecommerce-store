@@ -1,6 +1,17 @@
-function ProductCard({ product, addToCart }) {
+function ProductCard({ product, addToCart, onViewDetails }) {
   return (
-    <div className="product-card">
+    <article
+      className="product-card"
+      role="button"
+      tabIndex={0}
+      onClick={() => onViewDetails(product.id)}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onViewDetails(product.id);
+        }
+      }}
+    >
 
       <img
         className="product-image"
@@ -19,11 +30,17 @@ function ProductCard({ product, addToCart }) {
         ₹{product.price.toLocaleString("en-IN")}
       </h3>
 
-      <button onClick={() => addToCart(product)}>
+      <button
+        type="button"
+        onClick={(event) => {
+          event.stopPropagation();
+          addToCart(product);
+        }}
+      >
         Add to Cart
       </button>
 
-    </div>
+    </article>
   );
 }
 
